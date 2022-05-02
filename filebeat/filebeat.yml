@@ -1,0 +1,22 @@
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - "/var/log/server/*.log"
+
+# Altera o nome do modelo exibido no kibana
+setup.template.name: "app-compose"
+setup.template.pattern: "app-compose-%{[agent.version]}"
+
+# Se estiver usando dashboards pré criados no kibana, use:
+setup.dashboard.index: "app-compose-*"
+
+setup.template.settings:
+  index._number_of_shards: 1
+
+filebeat.config.modules:
+  enabled: true
+  path: "/usr/share/filebeat/modules.d/*.yml"
+
+output.logstash:
+  hosts: ["logstash:5044"]
